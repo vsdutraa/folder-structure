@@ -1,4 +1,4 @@
-## Folder Structure with ESLint and `eslint-plugin-boundaries`
+# Productive Folder Structure
 
 This repository demonstrates a modular folder structure using **features** with **`eslint-plugin-boundaries`** to enforce import/export boundaries between components. The structure is designed for **Next.js 15.2.3** and **does not include a `src` folder**.
 

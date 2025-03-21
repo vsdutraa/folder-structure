@@ -15,48 +15,45 @@ const eslintConfig = [
 
 export default {
   ...eslintConfig,
-  plugins: {
-    boundaries,
-  },
+
+  plugins: [boundaries],
+
   settings: {
-    "boundaries/include": ["src/**/*"],
     "boundaries/elements": [
       {
-        mode: "full",
         type: "shared",
-        pattern: ["src/components/**/*"],
+        pattern: "src/components/**/*",
       },
       {
-        mode: "full",
         type: "feature",
-        capture: ["featureName"],
-        pattern: ["src/features/*/**/*"],
+        capture: "featureName",
+        pattern: "src/features/*/**/*",
       },
       {
-        mode: "full",
         type: "app",
         capture: ["_", "fileName"],
-        pattern: ["src/app/**/*"],
+        pattern: "src/app/**/*",
       },
       {
-        mode: "full",
         type: "neverImport",
-        pattern: ["src/*"],
+        pattern: "src/*",
       },
     ],
   },
   rules: {
+    ...boundaries.configs.recommended.rules,
+
     "boundaries/element-types": [
-      "error",
+      2,
       {
         default: "disallow",
         rules: [
           {
-            from: ["shared"],
-            allow: ["shared"],
+            from: "shared",
+            allow: "shared",
           },
           {
-            from: ["feature"],
+            from: "feature",
             allow: [
               "shared",
               ["feature", { featureName: "${from.featureName}" }],
@@ -67,7 +64,7 @@ export default {
             allow: ["shared", "feature"],
           },
           {
-            from: ["app"],
+            from: "app",
             allow: [["app", { fileName: "*.css" }]],
           },
         ],

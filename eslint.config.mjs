@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+
 import boundaries from "eslint-plugin-boundaries";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,64 +13,63 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+
+  {
+    plugins: { boundaries },
+
+    settings: {
+      "boundaries/elements": [
+        {
+          mode: "full",
+          type: "shared",
+          pattern: "components/**/*",
+        },
+        {
+          mode: "full",
+          type: "feature",
+          capture: ["featureName"],
+          pattern: "features/*/**/*",
+        },
+        {
+          type: "app",
+          capture: ["_", "fileName"],
+          pattern: "app/**/*",
+        },
+      ],
+    },
+
+    rules: {
+      ...boundaries.configs.recommended.rules,
+
+      "boundaries/element-types": [
+        "error",
+        {
+          default: "disallow",
+          rules: [
+            {
+              from: ["shared"],
+              allow: ["shared"],
+            },
+            {
+              from: ["feature"],
+              allow: [
+                "shared",
+                ["features", { featureName: "${featureName}" }],
+              ],
+            },
+            {
+              from: ["app"],
+              allow: ["shared", "feature"],
+            },
+            {
+              from: ["app"],
+              allow: [["app", { fileName: "*.css" }]],
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];
 
-export default {
-  ...eslintConfig,
-
-  plugins: ["boundaries"],
-
-  settings: {
-    "boundaries/elements": [
-      {
-        type: "shared",
-        pattern: "components/**/*",
-      },
-      {
-        type: "feature",
-        capture: "featureName",
-        pattern: "features/*/**/*",
-      },
-      {
-        type: "app",
-        capture: ["_", "fileName"],
-        pattern: "app/**/*",
-      },
-      {
-        type: "neverImport",
-        pattern: "*",
-      },
-    ],
-  },
-  rules: {
-    ...boundaries.configs.recommended.rules,
-
-    "boundaries/element-types": [
-      "error",
-      {
-        default: "disallow",
-        rules: [
-          {
-            from: "shared",
-            allow: "shared",
-          },
-          {
-            from: "feature",
-            allow: [
-              "shared",
-              ["feature", { featureName: "${from.featureName}" }],
-            ],
-          },
-          {
-            from: ["app", "neverImport"],
-            allow: ["shared", "feature"],
-          },
-          {
-            from: "app",
-            allow: [["app", { fileName: "*.css" }]],
-          },
-        ],
-      },
-    ],
-  },
-};
+export default eslintConfig;

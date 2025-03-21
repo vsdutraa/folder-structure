@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main>{children}</main>
+        <main className="max-w-[300px] m-auto">{children}</main>
       </body>
     </html>
   );

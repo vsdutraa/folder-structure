@@ -1,7 +1,9 @@
 export default function SalesTestingComponent() {
   return (
     <>
-      <div>Sales-Testing-Component</div>
+      <div className="border border-yellow-500">
+        <p>Sales-Testing-Component</p>
+      </div>
     </>
   );
 }

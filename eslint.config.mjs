@@ -1,6 +1,7 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
+import boundaries from "eslint-plugin-boundaries";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,27 +17,27 @@ const eslintConfig = [
 export default {
   ...eslintConfig,
 
-  plugins: [boundaries],
+  plugins: ["boundaries"],
 
   settings: {
     "boundaries/elements": [
       {
         type: "shared",
-        pattern: "src/components/**/*",
+        pattern: "components/**/*",
       },
       {
         type: "feature",
         capture: "featureName",
-        pattern: "src/features/*/**/*",
+        pattern: "features/*/**/*",
       },
       {
         type: "app",
         capture: ["_", "fileName"],
-        pattern: "src/app/**/*",
+        pattern: "app/**/*",
       },
       {
         type: "neverImport",
-        pattern: "src/*",
+        pattern: "*",
       },
     ],
   },
@@ -44,7 +45,7 @@ export default {
     ...boundaries.configs.recommended.rules,
 
     "boundaries/element-types": [
-      2,
+      "error",
       {
         default: "disallow",
         rules: [

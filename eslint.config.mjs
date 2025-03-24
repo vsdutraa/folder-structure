@@ -39,8 +39,6 @@ const eslintConfig = [
     },
 
     rules: {
-      ...boundaries.configs.recommended.rules,
-
       "boundaries/element-types": [
         "error",
         {
@@ -53,8 +51,8 @@ const eslintConfig = [
             {
               from: ["feature"],
               allow: [
-                "shared",
-                ["features", { featureName: "${featureName}" }],
+                ["shared"],
+                ["feature", { featureName: "${featureName}" }],
               ],
             },
             {
